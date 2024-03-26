@@ -37,7 +37,7 @@ class Window:
             window.blit(bg_image, tile)
         
         player.draw(window)
-        
+    
         pygame.display.update()
 
 
@@ -54,7 +54,6 @@ class Window:
                     exit()
 
             player.loop(self.FPS)
-            # Player.handle_movements(self, player)
             player.handle_movements()
             self.draw(window, self.background, self.bg_image, player)
       
