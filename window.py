@@ -32,16 +32,19 @@ class Window:
         return tiles, image
     
 
-    def draw(self, window, background, bg_image, player):
+    def draw(self, window, background, bg_image, player, objects):
         for tile in background:
             window.blit(bg_image, tile)
+        
+        for obj in objects:
+            obj.draw(window)
         
         player.draw(window)
     
         pygame.display.update()
 
 
-    def event_loop(self, window, player):
+    def event_loop(self, window, player, objects):
 
         self.background, self.bg_image = self.get_background("Yellow.png")
 
@@ -55,5 +58,5 @@ class Window:
 
             player.loop(self.FPS)
             player.handle_movements()
-            self.draw(window, self.background, self.bg_image, player)
+            self.draw(window, self.background, self.bg_image, player, objects)
       

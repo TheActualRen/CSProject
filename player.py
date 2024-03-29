@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
 
     
     def loop(self, fps):
-        #self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY) # simulating accel due to gravity
+        self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY) # simulating accel due to gravity
         self.move(self.x_vel, self.y_vel)
         
         self.fall_count += 1 
@@ -70,7 +70,10 @@ class Player(pygame.sprite.Sprite):
         self.animation_count += 1 
         self.update()
 
-
+    def update(self):
+        self.rect = self.sprite.get_rect(topleft=(self.rect.x, self.rect.y))
+        self.mask = pygame.mask.from_surface(self.sprite) # Allows us to perform pixel perfect collision
+        
 
     def draw(self, window):
         window.blit(self.sprite, (self.rect.x, self.rect.y))
