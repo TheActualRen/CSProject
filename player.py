@@ -39,9 +39,32 @@ class Player(pygame.sprite.Sprite):
         if self.direction != "right":
             self.direction = "right"
             self.animation_count = 0
+    
+    def landed(self):
+        self.fall_count = 0
+        self.y_vel = 0
+        self.jump_count = 0
+    
+    def hit_head(self):
+        self.count = 0
+        self.y_vel *= -1
+
+    def handle_vertical_collisions(self, objects, dy):
+        collided_objects = []
+        for obj in objects:
+            if pygame.sprite.collide_mask(self, obj):
+                if dy > 0:
+                    self.rect_bottom = obj.rect.top
+                    self.landed()
+                elif dy < 0:
+                    self.rect_top = obj.rect.bottom
+                    self.hit_head()
+        
+        return collided_objects
 
 
-    def handle_movements(self):
+
+    def handle_movements(self, objects):
         keys = pygame.key.get_pressed()
 
         self.x_vel = 0
@@ -50,6 +73,7 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_RIGHT]:
             self.move_right(self.PLAYER_VEL)
 
+        self.handle_vertical_collisions(objects, self.y_vel)
     
     def loop(self, fps):
         self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY) # simulating accel due to gravity

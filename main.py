@@ -15,7 +15,9 @@ if __name__ == "__main__":
     player = Player(100, 100, 50, 50, player_sprites)
 
     block_size = 96
-    blocks = [Block(0, game_window.HEIGHT - block_size, block_size)]
+    floor = [Block(i * block_size, game_window.HEIGHT - block_size, block_size)
+for i in range(-game_window.WIDTH // block_size, (game_window.WIDTH * 2) // block_size)]
+    blocks = [*floor, Block(0, game_window.HEIGHT - block_size, block_size)]
 
     game_running = game_window.event_loop(game_window_surface, player, blocks)
 

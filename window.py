@@ -57,6 +57,6 @@ class Window:
                     exit()
 
             player.loop(self.FPS)
-            player.handle_movements()
+            player.handle_movements(objects)
             self.draw(window, self.background, self.bg_image, player, objects)
-      
+
