@@ -21,7 +21,15 @@ class Player(pygame.sprite.Sprite):
         self.fall_count = 0 
         self.SPRITES = sprites
 
+    def jump(self):
+        self.y_vel = -self.GRAVITY * 8
+        self.animation_count = 0
 
+        self.jump_count += 1 
+        if self.jump_count == 1:
+            self.fall_count = 0
+        
+        
     def move(self, dx, dy):
         self.rect.x += dx
         self.rect.y += dy
@@ -50,17 +58,14 @@ class Player(pygame.sprite.Sprite):
         self.y_vel *= -1
 
     def handle_vertical_collisions(self, objects, dy):
-        collided_objects = []
         for obj in objects:
             if pygame.sprite.collide_mask(self, obj):
                 if dy > 0:
-                    self.rect_bottom = obj.rect.top
+                    self.rect.bottom = obj.rect.top
                     self.landed()
                 elif dy < 0:
-                    self.rect_top = obj.rect.bottom
+                    self.rect.top = obj.rect.bottom
                     self.hit_head()
-        
-        return collided_objects
 
 
 

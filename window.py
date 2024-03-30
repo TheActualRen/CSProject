@@ -55,6 +55,10 @@ class Window:
                 if event.type == pygame.QUIT:
                     pygame.quit() 
                     exit()
+                
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE and player.jump_count < 2:
+                        player.jump()
 
             player.loop(self.FPS)
             player.handle_movements(objects)
