@@ -32,19 +32,19 @@ class Window:
         return tiles, image
     
 
-    def draw(self, window, background, bg_image, player, objects):
+    def draw(self, window, background, bg_image, player, objects, offset_x):
         for tile in background:
             window.blit(bg_image, tile)
         
         for obj in objects:
-            obj.draw(window)
+            obj.draw(window, offset_x)
         
-        player.draw(window)
+        player.draw(window, offset_x)
     
         pygame.display.update()
 
 
-    def event_loop(self, window, player, objects):
+    def event_loop(self, window, player, objects, offset_x, scroll_area_width):
 
         self.background, self.bg_image = self.get_background("Yellow.png")
 
@@ -62,5 +62,9 @@ class Window:
 
             player.loop(self.FPS)
             player.handle_movements(objects)
-            self.draw(window, self.background, self.bg_image, player, objects)
+            self.draw(window, self.background, self.bg_image, player, objects, offset_x)
+
+            if ((player.rect.right - offset_x >= self.WIDTH - scroll_area_width and player.x_vel > 0) or 
+                (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
+                offset_x += player.x_vel
 

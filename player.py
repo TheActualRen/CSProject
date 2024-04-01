@@ -119,8 +119,8 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.sprite) # Allows us to perform pixel perfect collision
         
 
-    def draw(self, window):
-        window.blit(self.sprite, (self.rect.x, self.rect.y))
+    def draw(self, window, offset_x):
+        window.blit(self.sprite, (self.rect.x - offset_x, self.rect.y))
 
 
 
