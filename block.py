@@ -1,6 +1,6 @@
 import pygame
-from object import Object
 
+from object import Object
 from assets import * 
 
 class Block(Object):

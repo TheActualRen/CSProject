@@ -44,7 +44,7 @@ class Window:
         pygame.display.update()
 
 
-    def event_loop(self, window, player, objects, offset_x, scroll_area_width):
+    def event_loop(self, window, player, objects, offset_x, scroll_area_width, fire_trap):
 
         self.background, self.bg_image = self.get_background("Yellow.png")
 
@@ -61,6 +61,7 @@ class Window:
                         player.jump()
 
             player.loop(self.FPS)
+            fire_trap.loop()
             player.handle_movements(objects)
             self.draw(window, self.background, self.bg_image, player, objects, offset_x)
 
