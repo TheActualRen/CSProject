@@ -16,12 +16,16 @@ if __name__ == "__main__":
 
     block_size = 96
     floor = [Block(i * block_size, game_window.HEIGHT - block_size, block_size)
-for i in range(-game_window.WIDTH // block_size, (game_window.WIDTH * 2) // block_size)]
+        for i in range(-game_window.WIDTH // block_size, (game_window.WIDTH * 2) // block_size)]
+    
     blocks = [*floor, Block(0, game_window.HEIGHT - block_size, block_size)]
+
+    objects = [*floor, Block(0, game_window.HEIGHT - block_size *2, block_size),
+            Block(block_size * 3, game_window.HEIGHT - block_size * 4, block_size)]
 
     offset_x = 0
     scroll_area_width = 200
 
-    game_running = game_window.event_loop(game_window_surface, player, blocks, offset_x, scroll_area_width)
+    game_running = game_window.event_loop(game_window_surface, player, objects, offset_x, scroll_area_width)
 
 

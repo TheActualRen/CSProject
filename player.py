@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = "left"
         self.animation_count = 0
         self.fall_count = 0 
+        self.jump_count = 0
         self.SPRITES = sprites
 
     def jump(self):
@@ -70,14 +71,31 @@ class Player(pygame.sprite.Sprite):
                     self.rect.top = obj.rect.bottom
                     self.hit_head()
 
+    def collide(self, objects, dx):
+        self.move(dx, 0)
+        self.update()
+        collided_object = None
+
+        for obj in objects:
+            if pygame.sprite.collide_mask(self, obj):
+                collided_object = obj
+                break
+        
+        self.move(-dx, 0)
+        self.update()
+        return collided_object
+
 
     def handle_movements(self, objects):
         keys = pygame.key.get_pressed()
 
         self.x_vel = 0
-        if keys[pygame.K_LEFT]:
+        collide_left = self.collide(objects, -self.PLAYER_VEL * 2) # multiplied by 2 so animation count does not affect collision
+        collide_right = self.collide(objects, self.PLAYER_VEL * 2)
+
+        if keys[pygame.K_LEFT] and not collide_left:
             self.move_left(self.PLAYER_VEL)
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] and not collide_right:
             self.move_right(self.PLAYER_VEL)
 
         self.handle_vertical_collisions(objects, self.y_vel)
