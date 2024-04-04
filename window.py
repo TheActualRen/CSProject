@@ -10,6 +10,7 @@ class Window:
         self.HEIGHT = 800
         self.CAPTION = "My Game"
         self.clock = pygame.time.Clock()
+        self.start_time = pygame.time.get_ticks()
 
 
     def generate_window(self):
@@ -45,9 +46,11 @@ class Window:
         health_text = font.render(f"Health: {player.health}/20", True, (255, 255, 255))
         window.blit(health_text, (10, 10))
 
-        font = pygame.font.Font(None, 36)
         score_text = font.render(f"Score: {player.score}", True, (255, 255, 255))
         window.blit(score_text, (10, 40))
+
+        timer_text = font.render(f"Time: {(int(self.timer))}", True, (255, 255, 255))
+        window.blit(timer_text, (10, 70))  
             
         pygame.display.update()
 
@@ -58,6 +61,9 @@ class Window:
 
         while True:
             self.clock.tick(self.FPS)
+            elapsed_time = pygame.time.get_ticks() - self.start_time
+            elapsed_time /= 1000
+            self.timer = max(30 - elapsed_time, 0)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -67,6 +73,14 @@ class Window:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE and player.jump_count < 2:
                         player.jump()
+
+            
+
+            if self.timer <= 0 and player.score < 3:
+                pygame.quit()
+                exit()        
+                
+                
 
             player.loop(self.FPS)
             fire_trap.loop()
