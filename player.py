@@ -23,7 +23,16 @@ class Player(pygame.sprite.Sprite):
         self.SPRITES = sprites
         self.hit = False
         self.hit_count = 0 
-
+        self.health = 20
+        self.score = 0 
+    
+    def decrease_health(self):
+        self.health -= 1
+        if self.health == 0:
+            pygame.quit()
+            exit()
+    
+    
     def jump(self):
         self.y_vel = -self.GRAVITY * 8
         self.animation_count = 0
@@ -41,6 +50,7 @@ class Player(pygame.sprite.Sprite):
     def got_hit(self):
         self.hit = True
         self.hit_count = 0 
+        self.decrease_health()
 
     def move_left(self, vel):
         self.x_vel = -vel
@@ -116,8 +126,12 @@ class Player(pygame.sprite.Sprite):
         to_check = [collide_left, collide_right, *vertical_collisions] 
 
         for obj in to_check:
-            if obj and obj.name == "fire":
-                self.got_hit()
+            if obj:
+                if obj and obj.name == "fire":
+                    self.got_hit()
+                elif obj.name == "melon" and obj in objects:
+                    objects.remove(obj)        
+                    self.score += 1
 
 
     def loop(self, fps):

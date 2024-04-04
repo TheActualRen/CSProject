@@ -40,11 +40,19 @@ class Window:
             obj.draw(window, offset_x)
         
         player.draw(window, offset_x)
-    
+
+        font = pygame.font.SysFont(None, 36)
+        health_text = font.render(f"Health: {player.health}/20", True, (255, 255, 255))
+        window.blit(health_text, (10, 10))
+
+        font = pygame.font.Font(None, 36)
+        score_text = font.render(f"Score: {player.score}", True, (255, 255, 255))
+        window.blit(score_text, (10, 40))
+            
         pygame.display.update()
 
 
-    def event_loop(self, window, player, objects, offset_x, scroll_area_width, fire_trap):
+    def event_loop(self, window, player, objects, offset_x, scroll_area_width, fire_trap, melons):
 
         self.background, self.bg_image = self.get_background("Yellow.png")
 
@@ -62,6 +70,10 @@ class Window:
 
             player.loop(self.FPS)
             fire_trap.loop()
+            
+            for melon in melons:
+                melon.loop()
+
             player.handle_movements(objects)
             self.draw(window, self.background, self.bg_image, player, objects, offset_x)
 
