@@ -3,6 +3,7 @@ import pygame
 from object import Object
 from assets import *
 
+
 class Fire(Object):
     ANIMATION_DELAY = 3
     

@@ -1,8 +1,6 @@
 import pygame
 from os.path import join
 
-from player import Player
-
 class Window:
     def __init__(self):
         self.FPS = 60
@@ -11,6 +9,7 @@ class Window:
         self.CAPTION = "My Game"
         self.clock = pygame.time.Clock()
         self.start_time = pygame.time.get_ticks()
+
 
 
     def generate_window(self):
@@ -55,7 +54,7 @@ class Window:
         pygame.display.update()
 
 
-    def event_loop(self, window, player, objects, offset_x, scroll_area_width, fire_trap, melons):
+    def event_loop(self, window, player, objects, offset_x, scroll_area_width, fire_traps, melons):
 
         self.background, self.bg_image = self.get_background("Yellow.png")
 
@@ -78,12 +77,12 @@ class Window:
 
             if self.timer <= 0 and player.score < 3:
                 pygame.quit()
-                exit()        
-                
+                exit()
                 
 
             player.loop(self.FPS)
-            fire_trap.loop()
+            for trap in fire_traps:
+                trap.loop()
             
             for melon in melons:
                 melon.loop()
@@ -94,4 +93,3 @@ class Window:
             if ((player.rect.right - offset_x >= self.WIDTH - scroll_area_width and player.x_vel > 0) or 
                 (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
                 offset_x += player.x_vel
-
